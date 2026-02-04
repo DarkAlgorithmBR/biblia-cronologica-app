@@ -14,10 +14,20 @@ const App: React.FC = () => {
 
   useEffect(() => {
     // Check active session on startup
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setIsAuthenticated(!!session);
-      setLoading(false);
-    });
+    const checkSession = async () => {
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        if (error) throw error;
+        setIsAuthenticated(!!session);
+      } catch (error) {
+        console.error("Erro ao verificar sessão:", error);
+        setIsAuthenticated(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkSession();
 
     // Listen for changes on auth state
     const {
