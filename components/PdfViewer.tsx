@@ -1,5 +1,5 @@
-import React from 'react';
-import { ArrowLeft, ExternalLink, FileText, Download } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowLeft, ExternalLink, FileText, Download, Bookmark } from 'lucide-react';
 
 interface PdfViewerProps {
   url: string;
@@ -9,6 +9,16 @@ interface PdfViewerProps {
 
 const PdfViewer: React.FC<PdfViewerProps> = ({ url, title, onBack }) => {
   const viewerUrl = `https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`;
+  
+  // Estado para o marcador de página
+  const [bookmark, setBookmark] = useState(() => {
+    return localStorage.getItem('bc_pdf_bookmark') || '';
+  });
+
+  // Salva o marcador sempre que o usuário digita
+  useEffect(() => {
+    localStorage.setItem('bc_pdf_bookmark', bookmark);
+  }, [bookmark]);
 
   return (
     <div className="flex flex-col h-full w-full bg-white absolute inset-0 z-50">
@@ -34,6 +44,19 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ url, title, onBack }) => {
           <span className="hidden sm:inline">Abrir</span>
           <ExternalLink size={16} />
         </a>
+      </div>
+
+      {/* Barra de Marcador de Página */}
+      <div className="bg-yellow-50 border-b border-yellow-100 px-4 py-2 flex items-center gap-2 shrink-0 z-20">
+        <Bookmark size={16} className="text-[#F59E0B]" fill="#F59E0B" />
+        <span className="text-xs font-bold text-yellow-800 uppercase tracking-wide whitespace-nowrap">Onde parei:</span>
+        <input 
+          type="text" 
+          value={bookmark}
+          onChange={(e) => setBookmark(e.target.value)}
+          placeholder="Ex: Dia 5, Página 10..."
+          className="flex-1 bg-transparent border-b border-yellow-300 text-sm text-gray-700 focus:outline-none focus:border-yellow-600 placeholder:text-yellow-600/40 px-1"
+        />
       </div>
 
       {/* Container Principal */}

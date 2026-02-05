@@ -1,26 +1,26 @@
 import React from 'react';
-import { MessageCircle } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 const FloatingButton: React.FC = () => {
   return (
     <button 
-      className="absolute bottom-20 right-4 z-40 flex items-center justify-center shadow-lg hover:scale-105 transition-transform duration-300"
-      aria-label="Chat de Suporte"
+      className="absolute bottom-20 right-4 z-40 flex items-center justify-center group"
+      aria-label="Assistente IA"
+      onClick={() => alert("O Assistente IA estará disponível em breve!")}
     >
-      <div className="relative">
-        {/* Avatar Ring */}
-        <div className="w-14 h-14 rounded-full bg-[#1E40AF] flex items-center justify-center border-2 border-white overflow-hidden">
-           {/* Placeholder Avatar */}
-           <img 
-            src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100&auto=format&fit=crop" 
-            alt="Suporte Pastoral" 
-            className="w-full h-full object-cover"
-           />
+      <div className="relative hover:scale-110 transition-transform duration-300">
+        {/* Glow Effect */}
+        <div className="absolute inset-0 bg-[#F59E0B] rounded-full blur-md opacity-40 group-hover:opacity-60 transition-opacity"></div>
+        
+        {/* Main Circle */}
+        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#1E40AF] to-[#1e3a8a] flex items-center justify-center border-2 border-white/20 shadow-xl relative z-10">
+           <Sparkles className="text-white" size={24} strokeWidth={2} />
         </div>
-        {/* Badge Icon */}
-        <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-1 shadow-sm">
-            <div className="bg-[#F59E0B] rounded-full p-1">
-                <MessageCircle size={12} className="text-white" fill="white" />
+        
+        {/* Badge "AI" */}
+        <div className="absolute -top-1 -right-1 bg-white rounded-full p-[2px] shadow-sm z-20">
+            <div className="bg-[#F59E0B] rounded-full px-1.5 py-0.5 flex items-center justify-center">
+                <span className="text-[9px] font-bold text-white leading-none">IA</span>
             </div>
         </div>
       </div>

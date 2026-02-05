@@ -4,13 +4,24 @@ import LoginScreen from './components/LoginScreen';
 import PdfViewer from './components/PdfViewer';
 import { supabase } from './lib/supabase';
 
-// URL Restaurada: Incluindo o ponto 'documents.' que é necessário para este bucket específico
-const PDF_URL = "https://oglqubhokihqouytbkzd.supabase.co/storage/v1/object/public/documents./Oraciones-Secretas-de-la-Santa-Cruz-para-la-Prosperidad.pdf";
+// URL Atualizada: Novo arquivo "Jornada Sagrada - A Bíblia Cronológica em 52 Semanas"
+const PDF_URL = "https://oglqubhokihqouytbkzd.supabase.co/storage/v1/object/public/documents./Jornada-Sagrada-A-Biblia-Cronologica-em-52-Semanas.pdf";
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [currentView, setCurrentView] = useState('dashboard'); // 'dashboard' | 'chronology-pdf'
+  
+  // Modificado: Inicializa o estado lendo do localStorage para lembrar onde o usuário parou
+  const [currentView, setCurrentView] = useState(() => {
+    return localStorage.getItem('bc_last_view') || 'dashboard';
+  });
+
+  // Efeito para salvar a tela atual sempre que ela mudar
+  useEffect(() => {
+    if (isAuthenticated) {
+      localStorage.setItem('bc_last_view', currentView);
+    }
+  }, [currentView, isAuthenticated]);
 
   useEffect(() => {
     // Check active session on startup

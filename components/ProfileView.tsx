@@ -21,6 +21,10 @@ const ProfileView: React.FC = () => {
   const handleLogout = async () => {
     setLoading(true);
     try {
+      // Limpa as preferências locais ao sair
+      localStorage.removeItem('bc_last_view');
+      localStorage.removeItem('bc_pdf_bookmark');
+      
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
       // O App.tsx vai detectar a mudança de estado e redirecionar para o Login automaticamente
@@ -90,7 +94,7 @@ const ProfileView: React.FC = () => {
           )}
         </button>
         
-        <p className="text-center text-[10px] text-gray-400 pb-2">Versão 1.0.2 Premium</p>
+        <p className="text-center text-[10px] text-gray-400 pb-2">Versão 1.0.3 Premium</p>
       </div>
     </div>
   );
